@@ -1,0 +1,17 @@
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s9">
+          <i class="material-icons prefix">error</i>
+          {{input id="icon_prefix" type="text" class="validate" key-press="checkIt" value=geneValue }}
+          <label for="icon_prefix">Gene Name</label>
+        </div>
+        <div class="input-field col s3">
+          <button class="btn pink lighten-2 white-text" {{action findGene}}>Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+<div id="genomeWrapper">Genome Wrapper</div>
+
+

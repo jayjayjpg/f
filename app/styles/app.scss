@@ -1,0 +1,18 @@
+// Fix for Roboto font path
+$roboto-font-path: '../assets/';
+
+@import 'components/color';
+ 
+// Custom color settings go here 
+$primary-color: color("pink", "lighten-2");
+ 
+@import 'components/variables';
+@import 'materialize';
+@import 'ember-cli-materialize';
+
+
+// App related styles
+@import 'core/mixins';
+@import 'core/layout';
+
+@import 'components/tnt-genome';
