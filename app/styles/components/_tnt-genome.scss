@@ -1,16 +1,16 @@
  .tnt-genome {
 
-   .tnt_track {
+    .tnt_g {
 
-    // no idea how to style that rascal
-    &:first-child  {
-      text {
-        @include vendor(transform, translate(0, -4px));
-       font-size: 14px;
-       line-height: 20px;
-      }
+        .tnt_track:nth-child(2) {
+        // no idea how to style that rascal
+            text {
+              @include vendor(transform, translate(0, -4px));
+              font-size: 14px;
+              line-height: 20px;
+            }
+        }
     }
-   }
 
 
     svg text {
@@ -25,7 +25,7 @@
     .tnt_groupDiv {
       position: relative;
       margin: 0px 3px 5px 3px;
-      background-color: $secondary-color;
+      background-color: $light-bg;
     }
 
     rect.tnt_pane {
