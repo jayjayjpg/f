@@ -1,5 +1,12 @@
 <div class="container">
   <h2>Index Route</h2>
   {{tnt-genome}}
+  {{model.length}}
+  {{#each model as |dataPoint|}}
+    {{dataPoint.id}} : {{dataPoint.col}}, {{dataPoint.row}}, {{dataPoint.row_label}}
+  {{/each}}
+  {{#if model}}
+    {{heatmap-d3 jsonData=model}}
+  {{/if}}
   {{outlet}}
 </div>
