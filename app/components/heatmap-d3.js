@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['heatmap-d3','facade-element'],
   init(){
     this._super(...arguments);
-    console.log("parsed Data init heatmap: " + this.get('jsonData'));
+   // console.log("parsed Data init heatmap: " + this.get('jsonData'));
     //this.renderHeatMap();
   },
   renderHeatMap (){
@@ -20,17 +20,17 @@ export default Ember.Component.extend({
     {"col":1,"row":1,"label":"M","score":58,"row_label":"E"}];
 
     self.set('parsedData', parsedData);
-    console.log("this get parsedData parse: " + self.get('parsedData'));
+   // console.log("this get parsedData parse: " + self.get('parsedData'));
     console.log("this get parsedData purse: " + pursedData);
     let heatmap = new app({
         jsonData: parsedData,
         user_defined_config: {
-          colorLow: 'blue',
+          colorLow: '#cccccc',
           colorMed: 'white',
-          colorHigh: 'red',
-          scoreLow: 10,
-          scoreMid: 15,
-          scoreHigh: 20,
+          colorHigh: '#f72222',
+          scoreLow: 0,
+          scoreMid: 0.5,
+          scoreHigh: 1,
           offset: 5
         },
         target: 'heatWrapper'
