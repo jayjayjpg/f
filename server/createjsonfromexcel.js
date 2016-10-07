@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Excel = require('exceljs');
-const fileInput = 'server/interactions.xlsx'; // testing here if update of excel files reflects in data endpoint
+const fileInput = 'server/interactions2.xlsx'; // testing here if update of excel files reflects in data endpoint
 
 exports.create = function (callback){
   var resArray = [];

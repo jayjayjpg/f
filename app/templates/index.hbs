@@ -1,9 +1,12 @@
 <div class="container">
   <h2>Index Route</h2>
   {{interactions-map}}
-  {{model.length}}
   {{#if model}}
-    {{heatmap-d3 jsonData=model}} 
+   <section class="row">
+    <div class="col s12">
+      {{heatmap-d3 jsonData=model}} 
+    </div>
+  </section>
   {{/if}}
   {{outlet}}
 </div>

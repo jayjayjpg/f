@@ -18,3 +18,6 @@ testem.log
 *.xlsx
 *.tsv
 server/data/*.json
+# annoying tmp file stuff
+*~
+..*
