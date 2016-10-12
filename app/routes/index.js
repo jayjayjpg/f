@@ -3,22 +3,27 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   model(){
-    var indexData = RSVP.hash({ 
-        mutations: this.get('store').query('mutation', {
-            rsId: 'rs2425019,rs6088765'
-        }).then(function(snps){
-          return snps;
+      /* return RSVP.hash({
+        snps: this.get('store').query('snp',{
+          region: 'missense'
         }),
-        snps: this.get('store').query('snp', {
-            region: 'missense'
-        }).then(function(snps){
-          this.get('store').query('mutation', {
-              rsId:  // give back snp ids
-          }).then(function(filteredSnps){
-            return filteredSnps; // TODO: first query all the snps with a specific region and then use rsIds to query the mutation data
-          })
+        mutations: this.get('store').query('mutation',{
+          rsId: 'rs2425019'
         })
-    });
-    return indexData;
+      }); */
+      return RSVP.hash({
+          snps: this.get('store').query('snp',{
+            region: 'missense'
+          }),
+          mutations: this.get('store').query('mutation',{
+            rsId: 'rs2425019'
+          })
+        }).then(function(results){
+           var filteredSnpIds = results.snps.mapBy('rsId');
+           console.log("rsvp results: " + filteredSnpIds);
+          /* return this.get('store').query('mutation', {
+             rsId: filteredSnpIds.join(",")
+           }) */
+        });
   }
 });
