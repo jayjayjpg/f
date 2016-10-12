@@ -11,19 +11,45 @@ export default ApplicationSerializer.extend({
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType){
     var json = this._super(...arguments);
-    var labels = {};
-    var currentPatient = json.data[0].attributes['patient-id'];
-    var currentSnp = json.data[0].attributes['rs-id'];
+    var labels = {}; // { patientLabel: patientIndexForComponent, ....}
+    var rowLabels = {};
+    var newJsonData = {};
+    var currentLabelLen = 0;
+    var currentRowLen = 0;
+    var currentPatient = json.data[0].attributes['label'];
+    var currentSnp = json.data[0].attributes['row_label'];
+    labels[currentPatient] = currentLabelLen;
+    rowLabels[currentSnp] = currentRowLen;
+    console.log("currentPatient normalizeResponse mutation serializer: " + JSON.stringify(currentPatient));
     var patientIndex = 0;
     var snpIndex = 0;
     var result = json.data.map(function(obj, index){
-      if (currentPatient !== obj.attributes['patient-id']){
-        patientIndex += 1;
+      currentPatient = obj.attributes['label'];
+      currentSnp = obj.attributes['row_label'];
+      if (currentPatient in labels){
+        patientIndex = labels[currentPatient];
       }
-      obj.attributes.col = patientIndex;
+      else {
+        currentLabelLen = Object.keys(labels).length -1;
+        patientIndex = currentLabelLen + 1;
+        labels[currentPatient] = patientIndex;
+      }
+
+      if(currentSnp in rowLabels){
+        snpIndex = rowLabels[currentSnp];
+      }
+      else {
+        currentRowLen = Object.keys(rowLabels).length -1;
+        snpIndex = currentRowLen + 1;
+        rowLabels[currentSnp] = snpIndex;
+      }
+      console.log("labels obj: "  + JSON.stringify(labels));
+      obj.attributes.col = labels[currentPatient];
+      obj.attributes.row = rowLabels[currentSnp];
       return obj;
     });
+    newJsonData.data = result;
     // json.data.attributes.col = 0; // TODO: repair the JSON API format
-    return result;
+    return newJsonData;
   } 
 });
