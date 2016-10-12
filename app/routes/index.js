@@ -36,5 +36,11 @@ export default Ember.Route.extend({
           /* return this.get('store').query('mutation', {
              rsId: filteredSnpIds.join(",")
            }) */
+  },
+  actions: {
+    refreshRoute(){
+      console.log("route refresh");
+      this.refresh(); // TODO: force reload / requery of the modelby action or a transition hook?
+    }
   }
 });

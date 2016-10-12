@@ -1,8 +1,15 @@
 <div class="container">
   <h2>Index Route</h2>
-  {{interactions-map}}
+  {{!-- {{interactions-map}} --}}
   {{#if model}}
   {{log model}}
+   <section class="row">
+    <div class="col s12">
+      <p>Filter</p>
+      {{#link-to "index" (query-params regionType=null)}}#nofilter{{/link-to}}
+      {{#link-to "index" (query-params regionType="intergenic")}}Intergenic Snps{{/link-to}}
+    </div>
+   </section>
    <section class="row">
     <div class="col s12">
       {{heatmap-d3 jsonData=model.mutations}} 
