@@ -2,9 +2,10 @@
   <h2>Index Route</h2>
   {{interactions-map}}
   {{#if model}}
+  {{model.length}}
    <section class="row">
     <div class="col s12">
-      {{heatmap-d3 jsonData=model}} 
+      {{heatmap-d3 jsonData=model.mutations}} 
     </div>
   </section>
   {{/if}}

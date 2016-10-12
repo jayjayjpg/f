@@ -20,7 +20,7 @@ export default ApplicationSerializer.extend({
     var currentSnp = json.data[0].attributes['row_label'];
     labels[currentPatient] = currentLabelLen;
     rowLabels[currentSnp] = currentRowLen;
-    console.log("currentPatient normalizeResponse mutation serializer: " + JSON.stringify(currentPatient));
+
     var patientIndex = 0;
     var snpIndex = 0;
     var result = json.data.map(function(obj, index){
@@ -43,7 +43,7 @@ export default ApplicationSerializer.extend({
         snpIndex = currentRowLen + 1;
         rowLabels[currentSnp] = snpIndex;
       }
-      console.log("labels obj: "  + JSON.stringify(labels));
+
       obj.attributes.col = labels[currentPatient];
       obj.attributes.row = rowLabels[currentSnp];
       return obj;
