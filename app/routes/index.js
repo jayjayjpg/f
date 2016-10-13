@@ -21,7 +21,7 @@ export default Ember.Route.extend({
       // can now filter for SNPs with different region types
       return RSVP.hash({
           snps: this.get('store').query('snp',{
-            region: param.regionType // TODO: access the region parameter by model param
+            region: param.regionType 
           })
         }).then(function(results){
            var filteredSnpIds = results.snps.mapBy('rsId').join(",");
@@ -41,6 +41,9 @@ export default Ember.Route.extend({
     refreshRoute(){
       console.log("route refresh");
       this.refresh(); // TODO: force reload / requery of the modelby action or a transition hook?
+    },
+    myModelReload(model){
+      this.refresh();
     }
   }
 });
