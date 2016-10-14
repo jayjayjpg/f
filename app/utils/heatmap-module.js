@@ -45,11 +45,16 @@ export default function heatmapModule(configObj) {
    */
    var myData = [{x: "1", y:"A", value: 32},
                {x: "1", y:"B", value: 16},
-               {x: "1", y:"C", value: 2},
-               {x: "2", y:"A", value: 32},
+               {x: "2", y:"A", value: 2},
                {x: "2", y:"B", value: 32},
-               {x: "2", y:"C", value: 19}];
+               {x: "3", y:"A", value: 32},
+               {x: "3", y:"B", value: 19},
+               {x: "4", y:"A", value: 74},
+               {x: "4", y:"B", value: 90},
+               {x: "5", y:"A", value: 95},
+               {x: "5", y:"B", value: 330}];
   var dimensions = calculateDimensions(myData);
+  var dataScores = calculateValueColors(myData);
   var target = configObj.target;
   var fullDataCnt = 0;
   /* var fullWidth = 100;
@@ -72,10 +77,23 @@ export default function heatmapModule(configObj) {
       .attr("width", dimensions.adaptedfSize)
       .attr("height", dimensions.adaptedfSize)
       .attr("fill", "green")
-      .attr("fill-opacity", myData[fullDataCnt].value / 100);
+      .attr("fill-opacity", dataScores.values[fullDataCnt] / dataScores.maxValue);
       fullDataCnt += 1;
     }
   }
+
+  function calculateValueColors(dataObj){
+    var len = dataObj.length;
+    var valueObj = {};
+    var values = dataObj.map(function(obj){
+      return obj.value;
+    });
+    var maxVal = Math.floor(Math.max(...values));
+    console.log("max value: " + maxVal);
+    valueObj.maxValue = maxVal;
+    valueObj.values = values;
+    return valueObj;
+  };
 
   function calculateDimensions(dataObj){
     var dimensionObj = {};
