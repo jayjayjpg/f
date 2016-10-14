@@ -6,9 +6,10 @@ export default ApplicationSerializer.extend({
     return Ember.String.decamelize(key);
   }, */
   attrs: {
-    label: 'patient-id',
-    row_label: 'rs-id'
-  },
+    x: 'patient-id',
+    y: 'rs-id',
+    value: 'score'
+  }/*,
   normalizeResponse(store, primaryModelClass, payload, id, requestType){
     var json = this._super(...arguments);
     var labels = {}; // { patientLabel: patientIndexForComponent, ....}
@@ -16,16 +17,16 @@ export default ApplicationSerializer.extend({
     var newJsonData = {};
     var currentLabelLen = 0;
     var currentRowLen = 0;
-    var currentPatient = json.data[0].attributes['label'];
-    var currentSnp = json.data[0].attributes['row_label'];
+    var currentPatient = json.data[0].attributes['x'];
+    var currentSnp = json.data[0].attributes['y'];
     labels[currentPatient] = currentLabelLen;
     rowLabels[currentSnp] = currentRowLen;
 
     var patientIndex = 0;
     var snpIndex = 0;
     var result = json.data.map(function(obj, index){
-      currentPatient = obj.attributes['label'];
-      currentSnp = obj.attributes['row_label'];
+      currentPatient = obj.attributes['x'];
+      currentSnp = obj.attributes['y'];
       if (currentPatient in labels){
         patientIndex = labels[currentPatient];
       }
@@ -51,5 +52,5 @@ export default ApplicationSerializer.extend({
     newJsonData.data = result;
     // json.data.attributes.col = 0; // TODO: repair the JSON API format
     return newJsonData;
-  } 
+  } */
 });

@@ -49,6 +49,9 @@ export default Ember.Component.extend({
     console.log("init custom heatmap.");
   },
   renderHeatMap: function(){
-    app({target: '#heatWrapper'});
+    var data = this.get('jsonData');
+    console.log("jsonData loaded: " + data[0]);
+    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray())); // TODO: check which input order displays data with correct value - label mapping 
+    app({target: '#heatWrapper', data: parsedData });
   }.on('didInsertElement')
 });

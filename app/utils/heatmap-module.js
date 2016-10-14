@@ -43,7 +43,7 @@ export default function heatmapModule(configObj) {
    * 
    * 
    */
-   var myData = [{x: "1", y:"A", value: 32},
+  /* var myData = [{x: "1", y:"A", value: 32},
                {x: "1", y:"B", value: 16},
                {x: "2", y:"A", value: 2},
                {x: "2", y:"B", value: 32},
@@ -52,7 +52,8 @@ export default function heatmapModule(configObj) {
                {x: "4", y:"A", value: 74},
                {x: "4", y:"B", value: 90},
                {x: "5", y:"A", value: 95},
-               {x: "5", y:"B", value: 330}];
+               {x: "5", y:"B", value: 330}]; */
+  var myData = configObj.data;
   var dimensions = calculateDimensions(myData);
   var dataScores = calculateValueColors(myData);
   var target = configObj.target;
@@ -110,7 +111,7 @@ export default function heatmapModule(configObj) {
     dimensionObj.fieldMargin = dimensionObj.fieldSize / 25;
     dimensionObj.fullWidth = fullWidth;
     dimensionObj.fullHeight = rowsNum * dimensionObj.fieldSize;
-    dimensionObj.fieldPos = dimensionObj.fieldSize + dimensionObj.fieldMargin / 2;
+    dimensionObj.fieldPos = dimensionObj.fieldSize;
     dimensionObj.adaptedfSize = dimensionObj.fieldSize - dimensionObj.fieldMargin;
     //  dimensionObj.fieldPosY = dimensionObj.fieldSize + dimensionObj.fieldMargin;
 
