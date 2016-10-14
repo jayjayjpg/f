@@ -38,6 +38,7 @@ module.exports = function(defaults) {
       ]
     }
   }); 
+  // app.import('vendor/heatmap-d3.js');
   /* app.import('bower_components/d3/d3.js', {
     exports: {
       'd3v4':[

@@ -1,7 +1,8 @@
 import Ember from 'ember';
-import app from 'npm:biojs-vis-heatmap-d3';
+//import app from 'npm:biojs-vis-heatmap-d3';
+import app from '../utils/heatmap-module';
 
-export default Ember.Component.extend({
+/* export default Ember.Component.extend({
   classNames: ['heatmap-d3','facade-element'],
   init(){
     this._super(...arguments);
@@ -29,14 +30,25 @@ export default Ember.Component.extend({
         target: 'heatWrapper'
       });
     self.set('heatmap', heatmap);
-  }.on('didInsertElement').observes('jsonData'), // nice try on the component rerender on model change
+  }.on('didInsertElement'), // nice try on the component rerender on model change
   pendingReq: function(){
     console.log("request is pending");
   }.property('parsedData.isPending'),
   updateData: function(){
-    console.log("heatmap CP: updateData)");
+    console.log("heatmap CP: updateData");
     let heatmap = this.get('heatmap');
     heatmap.jsonData = this.get('jsonData');
     this.set('heatmap', heatmap);
-  })
+  }.observes('jsonData')
+}); */
+
+export default Ember.Component.extend({
+  classNames: ['heatmap-d3','facade-element'],
+  init(){
+    this._super(...arguments);
+    console.log("init custom heatmap.");
+  },
+  renderHeatMap: function(){
+    app({target: '#heatWrapper'});
+  }.on('didInsertElement')
 });
