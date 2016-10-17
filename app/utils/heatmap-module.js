@@ -69,19 +69,19 @@ export default function heatmapModule(configObj) {
     .attr("height","100%")
     .attr("viewBox","0 0 " + dimensions.fullWidth + " " + dimensions.fullHeight);
 
-  for (var rowCnt = 0; rowCnt < dimensions.rowsNum; rowCnt += 1){
-    for (var colCnt = 0; colCnt < dimensions.colsNum; colCnt +=1){
-      svg
-      .append("rect")
-      .attr("x", colCnt * dimensions.fieldPos)
-      .attr("y", rowCnt * dimensions.fieldPos)
-      .attr("width", dimensions.adaptedfSize)
-      .attr("height", dimensions.adaptedfSize)
-      .attr("fill", "green")
-      .attr("fill-opacity", dataScores.values[fullDataCnt] / dataScores.maxValue);
-      fullDataCnt += 1;
-    }
-  }
+    dimensions.fieldData.data.forEach(function(el){
+        svg
+        .append("rect")
+        .attr("x", el["posX"] * dimensions.fieldPos)
+        .attr("y", el["posY"] * dimensions.fieldPos)
+        .attr("width", dimensions.adaptedfSize)
+        .attr("height", dimensions.adaptedfSize)
+        .attr("fill", "green")
+        .attr("fill-opacity", el["value"] / dataScores.maxValue)
+        .append("title")
+        .text("patient: " + el["x"] + ", SNP: " + el["y"]);
+
+    });
 
   function calculateValueColors(dataObj){
     var len = dataObj.length;
@@ -98,12 +98,17 @@ export default function heatmapModule(configObj) {
 
   function calculateDimensions(dataObj){
     var dimensionObj = {};
+    var allDataKeys = [];
     var fullWidth = 100;
 
     var rows = getUniqueValues(dataObj, "y");
     var cols = getUniqueValues(dataObj, "x");
-    var rowsNum = rows.length;
-    var colsNum = cols.length;
+    allDataKeys[0] = rows;
+    allDataKeys[1] = cols;
+   // console.log("allDataKeys" + allDataKeys[1]);
+    var fieldData = createFieldObjects(dataObj, allDataKeys);
+    var rowsNum = fieldData.rowsNum;
+    var colsNum = fieldData.colsNum;
     
     dimensionObj.colsNum = colsNum;
     dimensionObj.rowsNum = rowsNum;
@@ -113,23 +118,45 @@ export default function heatmapModule(configObj) {
     dimensionObj.fullHeight = rowsNum * dimensionObj.fieldSize;
     dimensionObj.fieldPos = dimensionObj.fieldSize;
     dimensionObj.adaptedfSize = dimensionObj.fieldSize - dimensionObj.fieldMargin;
+    dimensionObj.rows = rows;
+    dimensionObj.cols = cols;
+    dimensionObj.fieldData = fieldData;
     //  dimensionObj.fieldPosY = dimensionObj.fieldSize + dimensionObj.fieldMargin;
 
     
-    console.log("rows " + cols + " number: " + colsNum);
+    // console.log("rows " + cols + " number: " + colsNum);
 
     
     
   
     function getUniqueValues(arr, key){
         var valList = [];
-        arr.forEach(function(el){
-          if (valList.indexOf(el[key]) === -1){
-            valList.push(el[key]);
+        var currentVal; 
+        arr.forEach(function(el, index){
+          currentVal = el[key]; // rs23123
+          if (valList.indexOf(currentVal) === -1){ // wtf why is this such a mindfuck
+            valList.push(currentVal);
           }
         });
-        console.log("dataRowsList: " + valList);
+      //  console.log("dataRowsList: " +key+ " key - " + JSON.stringify(valList));
+
         return valList;
+    }
+    
+    function createFieldObjects(arr, keyLists){
+        var secondList = {};
+        secondList.data = [];
+
+      secondList.data = arr.map(function(el, index){
+        el["posX"] = keyLists[1].indexOf(el["x"]);
+        el["posY"] = keyLists[0].indexOf(el["y"]);
+        return el;
+      });
+      // final data attributes
+      secondList.rowsNum = keyLists[1].length;
+      secondList.colsNum = keyLists[0].length;
+      console.log("dataRowsList: key - " + JSON.stringify(secondList)); 
+      return secondList;
     }
 
   return dimensionObj;

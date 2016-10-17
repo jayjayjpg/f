@@ -51,7 +51,9 @@ export default Ember.Component.extend({
   renderHeatMap: function(){
     var data = this.get('jsonData');
     console.log("jsonData loaded: " + data[0]);
-    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray())); // TODO: check which input order displays data with correct value - label mapping 
-    app({target: '#heatWrapper', data: parsedData });
+    let sortedData = JSON.parse(JSON.stringify(this.get('jsonData').sortBy('x')));
+    // console.log("sorted Data: " + sortedData);
+    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray())); 
+    app({target: '#heatWrapper', data: sortedData });
   }.on('didInsertElement')
 });
