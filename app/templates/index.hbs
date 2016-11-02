@@ -8,19 +8,23 @@
       <p>Filter</p>
       {{#link-to "index" (query-params regionType=null)}}Get All SNPs{{/link-to}}
       <select style="display:block" onchange={{action 'queryMutations' value="target.value"}}>
-      <option>{{#link-to "index" (query-params regionType=null)}}#nofilter{{/link-to}}</option>
+      <option>{{#link-to "index"}}null{{/link-to}}</option>
       {{#each uniqueSnps as |snp|}}
         <option value={{snp.genomicRegion}}>{{#link-to "index" (query-params regionType=snp.genomicRegion)}}{{snp.genomicRegion}}{{/link-to}}</option>
       {{/each}}
       </select>
     </div>
     <div class="col s8">
-      <h3>{{numOfSnps}} SNPs sorted</h3>
+      {{#if gotFilteredSnps}}
+      <p>{{numOfSnps}} SNPs sorted</p>
+     {{/if}}
       <p>{{numOfMut}} mutations found.</p>
        <p>
-      {{#each model.filteredSnps as |snp|}}
-        {{snp.rsId}},
-      {{/each}}
+
+        {{#each model.filteredSnps as |snp|}}
+          {{snp.rsId}},
+        {{/each}}
+
       </p>
     </div>
    </section>

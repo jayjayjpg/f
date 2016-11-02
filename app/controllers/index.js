@@ -7,6 +7,7 @@ export default Ember.Controller.extend({
     let content = this.get('content');
     return content.snps.uniqBy('genomicRegion');
   }),
+  gotFilteredSnps: Ember.computed.bool('content.filteredSnps'),
   numOfSnps: Ember.computed('content', function(){
     return this.get('content').filteredSnps.get('length');
   }),

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 //import app from 'npm:biojs-vis-heatmap-d3';
-import app from '../utils/heatmap-module';
+import heatmap from '../utils/heatmap-module';
 
 /* export default Ember.Component.extend({
   classNames: ['heatmap-d3','facade-element'],
@@ -50,25 +50,18 @@ export default Ember.Component.extend({
   }),
   init(){
     this._super(...arguments);
+
   },
   renderHeatMap: function(){
     console.log("RERUN renderHeatMap");
     let data = this.get('jsonData');
-    console.log(data);
-    let heatMap = this.get('heatMap');
-    console.log(heatMap);
+
     let sortedData = JSON.parse(JSON.stringify(this.get('jsonData').sortBy('x')));
-    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray()));
-   /* if (heatMap !== undefined){
-      this.$('#heatmapInstance').remove();
-      console.log("removed heatmap");
-    } */
-    let newHeatMap = app({target: '#heatWrapper', data: sortedData });
-   /* this.set('heatMap', newHeatMap);
-    this.get('heatMap');*/
+    heatmap.update(sortedData);
+
   }.observes('jsonData'),
   didInsertElement(){
-
-    this.get('renderHeatMap');
+    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray()));
+    let newHeatMap = heatmap.heatmapModule({target: '#heatWrapper', data: parsedData });
   }
 });
