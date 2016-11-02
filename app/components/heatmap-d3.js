@@ -44,16 +44,31 @@ import app from '../utils/heatmap-module';
 
 export default Ember.Component.extend({
   classNames: ['heatmap-d3','facade-element'],
+  cnt: 0,
+  heatMap: Ember.computed('jsonData.@each', function(){
+    return this.$('#heatmapInstance');
+  }),
   init(){
     this._super(...arguments);
-    console.log("init custom heatmap.");
   },
   renderHeatMap: function(){
-    var data = this.get('jsonData');
-    console.log("jsonData loaded: " + data[0]);
+    console.log("RERUN renderHeatMap");
+    let data = this.get('jsonData');
+    console.log(data);
+    let heatMap = this.get('heatMap');
+    console.log(heatMap);
     let sortedData = JSON.parse(JSON.stringify(this.get('jsonData').sortBy('x')));
-    // console.log("sorted Data: " + sortedData);
-    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray())); 
-    app({target: '#heatWrapper', data: sortedData });
-  }.on('didInsertElement')
+    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray()));
+   /* if (heatMap !== undefined){
+      this.$('#heatmapInstance').remove();
+      console.log("removed heatmap");
+    } */
+    let newHeatMap = app({target: '#heatWrapper', data: sortedData });
+   /* this.set('heatMap', newHeatMap);
+    this.get('heatMap');*/
+  }.observes('jsonData'),
+  didInsertElement(){
+
+    this.get('renderHeatMap');
+  }
 });

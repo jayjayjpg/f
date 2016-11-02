@@ -1,0 +1,22 @@
+.heatmap-d3 {
+
+  path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  
+  .axis text {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: .2;
+    shape-rendering: crispEdges;
+  } 
+
+}

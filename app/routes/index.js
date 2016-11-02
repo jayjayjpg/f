@@ -12,22 +12,21 @@ export default Ember.Route.extend({
       console.log("fab model param: " + JSON.stringify(param));
       if (param.regionType == null){
         return RSVP.hash({
-          snps: this.get('store').query('snp',{
-            region: 'missense'
-          }),
+          snps: this.get('store').findAll('snp'),
           mutations: this.get('store').findAll('mutation')
         }); 
       }
       // can now filter for SNPs with different region types
       return RSVP.hash({
-          snps: this.get('store').query('snp',{
+          snps: this.get('store').findAll('snp'),
+          filteredSnps: this.get('store').query('snp',{
             region: param.regionType 
           })
         }).then(function(results){
-           var filteredSnpIds = results.snps.mapBy('rsId').join(",");
-           console.log("rsvp results: " + filteredSnpIds);
+           var filteredSnpIds = results.filteredSnps.mapBy('rsId').join(",");
            return RSVP.hash({
-              snps: results.snps,
+              snps: self.get('store').peekAll('snp'),
+              filteredSnps: results.filteredSnps,
               mutations: self.get('store').query('mutation',{
                 rsId: filteredSnpIds
               })

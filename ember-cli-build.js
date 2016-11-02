@@ -28,16 +28,16 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
   //app.import('vendor/tnt.genome.css');
   // app.import('vendor/d3.js');
-  app.import('bower_components/d3-legacy/d3.js', {
+  app.import('bower_components/d3/d3.js', {
     destDir: 'assets'
   });
-  app.import('vendor/shims/d3-legacy.js', {
+ /* app.import('vendor/shims/d3-legacy.js', {
     exports: {
       'd3v3':[
         'default'
       ]
     }
-  }); 
+  });  */
   // app.import('vendor/heatmap-d3.js');
   /* app.import('bower_components/d3/d3.js', {
     exports: {

@@ -1,48 +1,4 @@
 export default function heatmapModule(configObj) {
-  /*
-   * configObj = {
-        jsonData: data,
-        user_defined_config: {
-          colorLow: '#555',
-          colorMed: 'white',
-          colorHigh: '#f72222',
-          scoreLow: 0,
-          scoreMid: 0.5,
-          scoreHigh: 1,
-          offset: 5
-        },
-        target: 'heatWrapper'
-      }
-      
-      data = [{
- *                  "col": 0,
- *                  "row": 0,
- *                  "label": "M",
- *                  "score": 27,
- *                  "row_label": "A"
- *              }, {
- *                  "col": 0,
- *                  "row": 1,
- *                  "label": "M",
- *                  "score": 5,
- *                  "row_label": "C"
- *              }, {
- *                  "col": 1,
- *                  "row": 0,
- *                  "label": "M",
- *                  "score": 43,
- *                  "row_label": "D"
- *              }, {
- *                  "col": 1,
- *                  "row": 1,
- *                  "label": "M",
- *                  "score": 58,
- *                  "row_label": "E"
- *              }];
-   * 
-   * 
-   * 
-   */
   /* var myData = [{x: "1", y:"A", value: 32},
                {x: "1", y:"B", value: 16},
                {x: "2", y:"A", value: 2},
@@ -63,14 +19,58 @@ export default function heatmapModule(configObj) {
   var rowsNum = 2;
   var fieldSize;
   var fieldMargin; */
+  var axisMargin = {top: 5, right: 100, bottom: 100, left: 100};
+  var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
   var svg = d3.select(target)
     .append("svg")
+    .attr("id","heatmapInstance")
     .attr("width","100%")
     .attr("height","100%")
-    .attr("viewBox","0 0 " + dimensions.fullWidth + " " + dimensions.fullHeight);
+    .attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
+
+    var x = d3.scaleOrdinal().domain([dimensions.cols]).range([0, dimensions.cols.length]);
+
+
+    var xAxis = d3.axisTop(x); // .ticks(dimensions.cols.length,"p");
+
+      /* svg
+        .append("g")            // Add the X Axis
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + axisMargin.top / 2 + ")")
+        .call(xAxis); */
+console.log("cols: " + dimensions.cols);
+
+     var dataCanvas = svg.append("g")
+         .attr("class", "data-fields")
+         .attr("width","100%")
+         .attr("height","100%")
+         // .attr("transform", "translate(0," + axisMargin.top + ")");
+         .attr("transform", "translate(0," + axisMargin.top + ")");
+
+/* var margin = {top: 100, right: 100, bottom: 100, left: 100},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .domain(["apple", "orange", "banana", "grapefruit"])
+    .rangePoints([0, width]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
+
+svg.append("g")
+    .attr("class", "x axis")
+    .call(xAxis) */
 
     dimensions.fieldData.data.forEach(function(el){
-        svg
+        dataCanvas
         .append("rect")
         .attr("x", el["posX"] * dimensions.fieldPos)
         .attr("y", el["posY"] * dimensions.fieldPos)
@@ -83,6 +83,7 @@ export default function heatmapModule(configObj) {
 
     });
 
+
   function calculateValueColors(dataObj){
     var len = dataObj.length;
     var valueObj = {};
@@ -90,7 +91,7 @@ export default function heatmapModule(configObj) {
       return obj.value;
     });
     var maxVal = Math.floor(Math.max(...values));
-    console.log("max value: " + maxVal);
+    // console.log("max value: " + maxVal);
     valueObj.maxValue = maxVal;
     valueObj.values = values;
     return valueObj;
@@ -155,7 +156,7 @@ export default function heatmapModule(configObj) {
       // final data attributes
       secondList.rowsNum = keyLists[1].length;
       secondList.colsNum = keyLists[0].length;
-      console.log("dataRowsList: key - " + JSON.stringify(secondList)); 
+      //console.log("dataRowsList: key - " + JSON.stringify(secondList)); 
       return secondList;
     }
 
