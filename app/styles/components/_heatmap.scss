@@ -28,4 +28,18 @@
     }
   }
 
+  .data-info-field {
+    width: 25%;
+    position: relative;
+    float: right;
+    padding: 2em 1.2em;
+    margin-bottom: 2em;
+    background-color: #f7f7f7;
+    border-radius: .5em;
+    
+    &.mutated {
+      color: #fff;
+      background-color: green;
+    }
+  }
 }

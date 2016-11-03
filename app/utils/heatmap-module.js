@@ -1,19 +1,13 @@
 function heatmapModule(configObj) {
 
   var myData = configObj.data;
+  var clickHandlerCallback = configObj.clickHandler;
   var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
   var dimensions = calculateDimensions(myData, axisMargin);
   var dataScores = calculateValueColors(myData);
   var target = configObj.target;
   var fullDataCnt = 0;
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
-
- /* var labels = dimensions.fieldData.data;
-
-  var xScale = d3.scaleOrdinal()
-                  .domain(labels.map(function(d){ return d["x"]; }))
-                .range(labels.map(function(d,i){ return d["posX"] * dimensions.fieldPos; }));
-  var xAxis = d3.axisBottom().scale(xScale); */
 
 
   var svg = d3.select(target)
@@ -30,21 +24,14 @@ function heatmapModule(configObj) {
       .attr("width","100%")
       .attr("height","100%")
       .attr("transform", "translate(" + axisMargin.left + ", " + 0 + ")");
-      
- /* svg.append("g")
-    .attr("class", "x-axis x axxis")
-    .attr("transform", "translate(0," + parseInt(fullhHeight - axisMargin.top * 2) + ")")
-    .call(xAxis)
-    .selectAll("text")
-    .attr("transform", "rotate(90)")
-    .style("text-anchor","start"); */
+
   
-  update(myData);
+  update(myData, clickHandlerCallback);
 
   return "heatmap magic";
 }
 
-function update(data){
+function update(data, clickHandlerCallback){
   var myData = data;
   var svgRatio = {};
   var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
@@ -122,13 +109,36 @@ function update(data){
       .attr("height", dimensions.adaptedfSize)
       .attr("fill", "green")
       .attr("fill-opacity", function(d){ return d["value"] / dataScores.maxValue})
+      .on("click", function(d,i) { 
+        let self = d3.select(this); handleDataElClick(d, i, self, clickHandlerCallback); 
+        return d;
+      })
+      .on("mouseover", handleDataElMo)
       .append("title")
       .text(function(d){ return "patient: " + d["x"] + ", SNP: " + d["y"]});
 
+  
   rects.exit().remove();
 
   return svgRatio;
 
+}
+
+function handleDataElClick(data, index, self, callback){
+  console.log("element click");
+  if (self.attr("selected")){
+    self.attr("selected",null);
+    self.attr("fill","green");
+    return;
+  }
+  self.attr("fill","#eaaaea");
+  self.attr("selected",true);
+  callback(data, index);
+  return data;
+}
+
+function handleDataElMo(d, i){
+  console.log("mouse over");
 }
 
 function calculateValueColors(dataObj){

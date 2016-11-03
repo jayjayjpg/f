@@ -1,5 +1,12 @@
 <p>SVG Width: {{svgRatio.width}}</p>
 <p>SVG Height: {{svgRatio.height}}</p>
+  <div class="data-info-field {{mutatedClass}}">
+  <p>Patient <strong>{{currentPatient}}</strong></p>
+  <p>SNP <strong>{{currentSnp}}</strong></p>
+  {{#if currentHasMut}}
+    <p>mutated</p>
+  {{/if}}
+</div>
 <div id="heatWrapper">
 </div>
 {{yield}}
