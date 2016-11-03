@@ -8,15 +8,24 @@
 
   
   .axis text {
-    font: 10px sans-serif;
+    font: 1.2em sans-serif;
   }
 
   .axis path,
   .axis line {
-    fill: none;
     stroke: grey;
     stroke-width: .2;
     shape-rendering: crispEdges;
   } 
+  
+  .axxis {
+   path, line {
+     stroke: $primary-color;
+   }
+ 
+    text {
+      font-size: 14px;
+    }
+  }
 
 }

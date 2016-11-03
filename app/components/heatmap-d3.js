@@ -57,6 +57,7 @@ export default Ember.Component.extend({
     let data = this.get('jsonData');
 
     let sortedData = JSON.parse(JSON.stringify(this.get('jsonData').sortBy('x')));
+    heatmap.update([]);
     heatmap.update(sortedData);
 
   }.observes('jsonData'),

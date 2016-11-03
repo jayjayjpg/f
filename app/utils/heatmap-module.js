@@ -5,8 +5,17 @@ function heatmapModule(configObj) {
   var dataScores = calculateValueColors(myData);
   var target = configObj.target;
   var fullDataCnt = 0;
-  var axisMargin = {top: 5, right: 100, bottom: 100, left: 100};
+  var axisMargin = {top: 100, right: 100, bottom: 100, left: 100};
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
+
+ /* var labels = dimensions.fieldData.data;
+
+  var xScale = d3.scaleOrdinal()
+                  .domain(labels.map(function(d){ return d["x"]; }))
+                .range(labels.map(function(d,i){ return d["posX"] * dimensions.fieldPos; }));
+  var xAxis = d3.axisBottom().scale(xScale); */
+
+
   var svg = d3.select(target)
     .append("svg")
     .attr("id","heatmapInstance")
@@ -18,7 +27,15 @@ function heatmapModule(configObj) {
       .attr("class", "data-fields")
       .attr("width","100%")
       .attr("height","100%")
-      .attr("transform", "translate(0," + axisMargin.top + ")");
+      .attr("transform", "translate(0," + 0 + ")");
+      
+ /* svg.append("g")
+    .attr("class", "x-axis x axxis")
+    .attr("transform", "translate(0," + parseInt(fullhHeight - axisMargin.top * 2) + ")")
+    .call(xAxis)
+    .selectAll("text")
+    .attr("transform", "rotate(90)")
+    .style("text-anchor","start"); */
   
   update(myData);
 
@@ -32,18 +49,39 @@ function update(data){
   var dataScores = calculateValueColors(myData);
 
   var fullDataCnt = 0;
-  var axisMargin = {top: 5, right: 100, bottom: 100, left: 100};
-  var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
+  var axisMargin = {top: 100, right: 100, bottom: 100, left: 100};
+  // var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
   var svg = d3.select('#heatmapInstance');
   var dataCanvas = d3.select('.data-fields');
 
   var dataScores = calculateValueColors(myData);
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
 
-  //svg.attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
+  var labels = dimensions.fieldData.data;
+
+  var xScale = d3.scaleOrdinal()
+                  .domain(labels.map(function(d){ return d["x"]; }))
+                .range(labels.map(function(d,i){ return d["posX"] * dimensions.fieldPos; })); // TODO: change mapping in range function to the actual unique values and not the whole array -> fixes magically resizing axis on data update
+  var xAxis = d3.axisBottom().scale(xScale);
+
+  svg.selectAll('.x.axxis')
+     .remove();
+
+  svg.append("g")
+    .attr("class", "x-axis x axxis")
+    .attr("transform", "translate(" + dimensions.fieldPos + "," + parseInt(fullhHeight - axisMargin.top * 2) + ")")
+    .call(xAxis)
+    .selectAll("text")
+    .attr("transform", "rotate(90) translate(0," + -dimensions.fieldPos + ")")
+    .style("text-anchor","start");
+
+
+  svg.attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
+
+
 
   var rects = dataCanvas.selectAll("rect")
-                      .data(dimensions.fieldData.data);
+      .data(dimensions.fieldData.data);
 
   rects.enter()
       .append("rect")
@@ -92,7 +130,7 @@ function calculateDimensions(dataObj){
     dimensionObj.fieldSize = fullWidth / colsNum;
     dimensionObj.fieldMargin = dimensionObj.fieldSize / 25;
     dimensionObj.fullWidth = fullWidth;
-    dimensionObj.fullHeight = rowsNum * dimensionObj.fieldSize;
+    dimensionObj.fullHeight = rowsNum * dimensionObj.fieldSize + dimensionObj.fieldSize;
     dimensionObj.fieldPos = dimensionObj.fieldSize;
     dimensionObj.adaptedfSize = dimensionObj.fieldSize - dimensionObj.fieldMargin;
     dimensionObj.rows = rows;
