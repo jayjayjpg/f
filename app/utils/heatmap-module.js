@@ -1,11 +1,11 @@
 function heatmapModule(configObj) {
 
   var myData = configObj.data;
-  var dimensions = calculateDimensions(myData);
+  var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
+  var dimensions = calculateDimensions(myData, axisMargin);
   var dataScores = calculateValueColors(myData);
   var target = configObj.target;
   var fullDataCnt = 0;
-  var axisMargin = {top: 100, right: 100, bottom: 100, left: 100};
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
 
  /* var labels = dimensions.fieldData.data;
@@ -21,13 +21,15 @@ function heatmapModule(configObj) {
     .attr("id","heatmapInstance")
     .attr("width","100%")
     .attr("height","100%")
-    .attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
+    .attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight)
+   // .attr("viewBox","0 0 100 " + dimensions.fullHeight)
+    .attr("preserveAspectRatio","xMidYMid meet");
 
   var dataCanvas = svg.append("g")
       .attr("class", "data-fields")
       .attr("width","100%")
       .attr("height","100%")
-      .attr("transform", "translate(0," + 0 + ")");
+      .attr("transform", "translate(" + axisMargin.left + ", " + 0 + ")");
       
  /* svg.append("g")
     .attr("class", "x-axis x axxis")
@@ -44,39 +46,68 @@ function heatmapModule(configObj) {
 
 function update(data){
   var myData = data;
+  var svgRatio = {};
+  var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
 
-  var dimensions = calculateDimensions(myData);
+  var dimensions = calculateDimensions(myData, axisMargin);
   var dataScores = calculateValueColors(myData);
 
   var fullDataCnt = 0;
-  var axisMargin = {top: 100, right: 100, bottom: 100, left: 100};
+
   // var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
   var svg = d3.select('#heatmapInstance');
   var dataCanvas = d3.select('.data-fields');
 
   var dataScores = calculateValueColors(myData);
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
+  
+  svgRatio.width = dimensions.fullHeight;
+  svgRatio.height = fullhHeight;
 
   var labels = dimensions.fieldData.data;
+  var colLabels = dimensions.cols;
+  var rowLabels = dimensions.rows;
+  console.log("colLabels: " + colLabels);
 
   var xScale = d3.scaleOrdinal()
-                  .domain(labels.map(function(d){ return d["x"]; }))
-                .range(labels.map(function(d,i){ return d["posX"] * dimensions.fieldPos; })); // TODO: change mapping in range function to the actual unique values and not the whole array -> fixes magically resizing axis on data update
+                .domain(colLabels.map(function(d){ return d; }))
+                .range(colLabels.map(function(d,i){ return i * dimensions.fieldPos; })); // TODO: change mapping in range function to the actual unique values and not the whole array -> fixes magically resizing axis on data update
   var xAxis = d3.axisBottom().scale(xScale);
+
+  var yScale = d3.scaleOrdinal()
+                .domain(rowLabels.map(function(d){ return d; }))
+                .range(rowLabels.map(function(d,i){ return i * dimensions.fieldPos; })); // TODO: change mapping in range function to the actual unique values and not the whole array -> fixes magically resizing axis on data update
+  var yAxis = d3.axisLeft().scale(yScale);
 
   svg.selectAll('.x.axxis')
      .remove();
 
+  svg.selectAll('.y.axxis')
+     .remove();
+
   svg.append("g")
     .attr("class", "x-axis x axxis")
-    .attr("transform", "translate(" + dimensions.fieldPos + "," + parseInt(fullhHeight - axisMargin.top * 2) + ")")
+    .attr("transform", "translate(" +  parseInt(axisMargin.left)  + "," + parseInt(fullhHeight - axisMargin.top * 2) + ")")
     .call(xAxis)
     .selectAll("text")
-    .attr("transform", "rotate(90) translate(0," + -dimensions.fieldPos + ")")
-    .style("text-anchor","start");
+    .attr("transform", "rotate(90) translate(0," + parseInt(-dimensions.fieldPos / 2) + ")")
+    .style("text-anchor","start")
+    .attr("font-size", function(d){ return parseInt(dimensions.fullHeight / 100) + "px";})
+    .attr("y", function(d){ return dimensions.fullHeight / 210});
+
+  svg.append("g")
+    .attr("class", "y-axis y axxis")
+    .attr("transform", "translate(" +  parseInt(axisMargin.left - 2) +  ", " + parseInt(fullhHeight / 100) + ")")
+    .call(yAxis)
+    .selectAll("text")
+    .attr("transform", "translate(" + 0 + ", " + parseInt(-dimensions.fieldPos / 2) + ")")
+    .style("text-anchor","start")
+    .attr("font-size", function(d){ return parseInt(dimensions.fullHeight / 100) + "px";})
+    .attr("y", function(d){ return dimensions.fullHeight / 210});
 
 
   svg.attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
+   // svg.attr("viewBox","0 0 100 " + dimensions.fullHeight);
 
 
 
@@ -96,6 +127,8 @@ function update(data){
 
   rects.exit().remove();
 
+  return svgRatio;
+
 }
 
 function calculateValueColors(dataObj){
@@ -109,9 +142,9 @@ function calculateValueColors(dataObj){
   valueObj.maxValue = maxVal;
   valueObj.values = values;
   return valueObj;
-};
+}
 
-function calculateDimensions(dataObj){
+function calculateDimensions(dataObj, margins){
     var dimensionObj = {};
     var allDataKeys = [];
     var fullWidth = 100;
@@ -127,9 +160,9 @@ function calculateDimensions(dataObj){
     
     dimensionObj.colsNum = colsNum;
     dimensionObj.rowsNum = rowsNum;
-    dimensionObj.fieldSize = fullWidth / colsNum;
+    dimensionObj.fieldSize = (fullWidth - margins.left - 4) /  colsNum;
     dimensionObj.fieldMargin = dimensionObj.fieldSize / 25;
-    dimensionObj.fullWidth = fullWidth;
+    dimensionObj.fullWidth = fullWidth - margins.left;
     dimensionObj.fullHeight = rowsNum * dimensionObj.fieldSize + dimensionObj.fieldSize;
     dimensionObj.fieldPos = dimensionObj.fieldSize;
     dimensionObj.adaptedfSize = dimensionObj.fieldSize - dimensionObj.fieldMargin;
