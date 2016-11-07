@@ -2,6 +2,8 @@ function heatmapModule(configObj) {
 
   var myData = configObj.data;
   var clickHandlerCallback = configObj.clickHandler;
+  var counterClickHandlerCallback = configObj.counterClickHandler;
+  console.log("counterClickHandlerCallback: " + counterClickHandlerCallback);
   var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
   var dimensions = calculateDimensions(myData, axisMargin);
   var dataScores = calculateValueColors(myData);
@@ -26,12 +28,12 @@ function heatmapModule(configObj) {
       .attr("transform", "translate(" + axisMargin.left + ", " + 0 + ")");
 
   
-  update(myData, clickHandlerCallback);
+  update(myData, clickHandlerCallback, counterClickHandlerCallback);
 
   return "heatmap magic";
 }
 
-function update(data, clickHandlerCallback){
+function update(data, clickHandlerCallback, counterClickHandlerCallback){
   var myData = data;
   var svgRatio = {};
   var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
@@ -110,7 +112,8 @@ function update(data, clickHandlerCallback){
       .attr("fill", "green")
       .attr("fill-opacity", function(d){ return d["value"] / dataScores.maxValue})
       .on("click", function(d,i) { 
-        let self = d3.select(this); handleDataElClick(d, i, self, clickHandlerCallback); 
+        let self = d3.select(this); 
+        handleDataElClick(d, i, self, clickHandlerCallback, counterClickHandlerCallback); 
         return d;
       })
       .on("mouseover", handleDataElMo)
@@ -124,16 +127,17 @@ function update(data, clickHandlerCallback){
 
 }
 
-function handleDataElClick(data, index, self, callback){
+function handleDataElClick(data, index, self, callback, counterCallback){
   console.log("element click");
   if (self.attr("selected")){
     self.attr("selected",null);
     self.attr("fill","green");
+    counterCallback(data, index, self);
     return;
   }
   self.attr("fill","#eaaaea");
   self.attr("selected",true);
-  callback(data, index);
+  callback(data, index, self);
   return data;
 }
 

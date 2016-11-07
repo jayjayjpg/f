@@ -5,7 +5,8 @@ $light-bg: #fdf7f7;
 @import 'components/color';
  
 // Custom color settings go here 
-$primary-color: color("pink", "lighten-2");
+$primary-color: color("blue", "lighten-2");
+$secondary-color: color("brown", "darken-3");
  
 @import 'components/variables';
 @import 'materialize';

@@ -1,12 +1,47 @@
-<p>SVG Width: {{svgRatio.width}}</p>
-<p>SVG Height: {{svgRatio.height}}</p>
-  <div class="data-info-field {{mutatedClass}}">
-  <p>Patient <strong>{{currentPatient}}</strong></p>
-  <p>SNP <strong>{{currentSnp}}</strong></p>
-  {{#if currentHasMut}}
-    <p>mutated</p>
+<article class="row">
+  <section class="col s12 m6">
+  &nbsp;
+  {{#if anySnpSelected}}
+    <ul class="collapsible" data-collapsible="accordion">
+    {{#each uniqueSelectedSnps as |snp|}}
+      <li>
+        <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{snp}}</div>
+        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+      </li>
+    {{/each}}
+    </ul>
   {{/if}}
-</div>
+  </section>
+  <section class="col s12 m6 relative">
+    <div class="data-info-field relative height-6 {{mutatedClass}}">
+      {{#unless noSnpSelected}}
+        <h5><strong>{{currentSnp}}</strong></h5>
+        <div class="row">
+          <div class="col s12 m6">
+                        {{numOfCurrentMutsAffected}} / {{numOfCurrentMuts}} mutations deviant
+          </div>
+          <div class="col s12 m6">
+           <div class="mutation-percentage right text-right">{{percOfCurrentMutsAffected}} %</div>
+          </div>
+        </div>
+        <button  class="btn-floating btn-large waves-effect waves-light brown darken-3 right" {{action "addSnpToSelection" currentSnp}}><i class="material-icons">add</i></button>
+      {{/unless}}
+    </div>
+    <div class="data-info-field relative height-3">
+      {{#unless noSnpSelected}}
+        <h5><strong>{{currentPatient}}</strong></h5>
+        <div class="row">
+          <div class="col s12 m6">
+              <i>meta data</i>
+          </div>
+          <div class="col s12 m6">
+          
+          </div>
+        </div>
+      {{/unless}}
+    </div>
+  </section>
+</article>
 <div id="heatWrapper">
 </div>
 {{yield}}

@@ -7,3 +7,13 @@ body {
 main {
   flex: 1 0 auto;
 }
+
+@for $i from 1 through 12 {
+  .height-#{$i} {
+    height: 30em / 12 * $i;
+  }
+}
+
+.relative {
+  position: relative;
+}

@@ -29,17 +29,23 @@
   }
 
   .data-info-field {
-    width: 25%;
-    position: relative;
-    float: right;
-    padding: 2em 1.2em;
+    right: 0;
+    top: 0;
+    padding: 1em 1.2em;
     margin-bottom: 2em;
     background-color: #f7f7f7;
     border-radius: .5em;
     
     &.mutated {
       color: #fff;
-      background-color: green;
+      background-color: $primary-color;
+    }
+
+    .mutation-percentage {
+      font-size: 4em;
+      line-height: .5em;
+      font-weight: 400;
+      
     }
   }
 }
