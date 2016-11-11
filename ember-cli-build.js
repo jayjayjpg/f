@@ -31,6 +31,9 @@ module.exports = function(defaults) {
   app.import('bower_components/d3/d3.js', {
     destDir: 'assets'
   });
+
+  // get cytoscape
+  app.import('bower_components/cytoscape/dist/cytoscape.js');
  /* app.import('vendor/shims/d3-legacy.js', {
     exports: {
       'd3v3':[

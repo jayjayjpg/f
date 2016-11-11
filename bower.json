@@ -9,7 +9,8 @@
     "polymer": "^1.6.1",
     "biojs-vis-vertical-bar-chart": "git+https://git@github.com/jessica-jordan/biojs-vis-vertical-bar-chart.git",
     "d3": "^4.2.3",
-    "d3-legacy": "d3#3.0.0"
+    "d3-legacy": "d3#3.0.0",
+    "cytoscape": "~2.7.10"
   },
   "resolutions": {
     "biojs-vis-vertical-bar-chart": "3efafc9ee6",
