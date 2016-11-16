@@ -14,6 +14,9 @@ export default Ember.Component.extend({
   },
   selectedSnps: [],
   uniqueSelectedSnps: Ember.computed.uniq('selectedSnps'),
+  selectedSnpsList: Ember.computed('uniqueSelectedSnps', function(){
+    return this.get('uniqueSelectedSnps').toArray();
+  }),
   anySnpSelected: Ember.computed.notEmpty('uniqueSelectedSnps'),
   currentHasMut: Ember.computed.bool('currentMut'),
   mutatedClass: Ember.computed('currentHasMut', function(){

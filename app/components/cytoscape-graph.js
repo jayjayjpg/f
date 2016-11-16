@@ -1,18 +1,22 @@
 import Ember from 'ember';
+// import cyqtip from 'cytoscape-qtip';
+
 
 export default Ember.Component.extend({
   tagName: 'article',
   classNames: ['facade-element', 'cytoscape-graph'],
+  elementData: null,
   didInsertElement(){
     let container = this.$();
-    
-    console.log("why container?" + container);
+    this.$('.tooltipped').tooltip({delay: 50});
+    // cyqtip( cytoscape, jquery );
 
     container[0].style.left = 0;
     container[0].style.top = 0;
     container[0].style.width = "100%";
-    container[0].style.height = "600px";
+    container[0].style.height = "400px";
     container[0].style.position = "relative";
+    
 
     var cy = cytoscape({
       container: container,
@@ -25,8 +29,9 @@ export default Ember.Component.extend({
           .css({
             'target-arrow-shape': 'triangle',
             'width': 4,
-            'line-color': '#ddd',
-            'target-arrow-color': '#ddd'
+            'line-color': '#9dbaea',
+            'target-arrow-color': '#9dbaea',
+            'curve-style': 'bezier'
           })
         .selector('.highlighted')
           .css({
@@ -36,26 +41,9 @@ export default Ember.Component.extend({
             'transition-property': 'background-color, line-color, target-arrow-color',
             'transition-duration': '0.5s'
           }),
-      elements: {
-          nodes: [
-            { data: { id: 'a' } },
-            { data: { id: 'b' } },
-            { data: { id: 'c' } },
-            { data: { id: 'd' } },
-            { data: { id: 'e' } }
-          ], 
-          edges: [
-            { data: { id: 'a"e', weight: 1, source: 'a', target: 'e' } },
-            { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-            { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
-            { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
-            { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
-            { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
-            { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
-          ]
-        },
+      elements: this.get('elementData'),
       layout: {
-        name: 'breadthfirst',
+        name: 'concentric',
         directed: true,
         roots: '#a',
         padding: 10
@@ -63,6 +51,23 @@ export default Ember.Component.extend({
       zoom: 1,
       zoomingEnabled: false
     });
+    
+    cy.on('mouseover', 'node', function(event) {
+        var node = event.cyTarget;
+        console.log("the node: " + event.cyTarget);
+        node.qtip({
+            content: 'hello',
+            show: {
+                event: event.type,
+                ready: true
+            },
+            hide: {
+                event: 'mouseout unfocus'
+            }
+        }, event);
+    });
+    
+    console.log("qtip obj defined?: " + this.$().qtip());
 
   }
 });

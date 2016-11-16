@@ -10,7 +10,9 @@
     "biojs-vis-vertical-bar-chart": "git+https://git@github.com/jessica-jordan/biojs-vis-vertical-bar-chart.git",
     "d3": "^4.2.3",
     "d3-legacy": "d3#3.0.0",
-    "cytoscape": "~2.7.10"
+    "cytoscape": "~2.7.10",
+    "cytoscape-dagre": "^1.3.0",
+    "cytoscape-qtip": "^2.4.0"
   },
   "resolutions": {
     "biojs-vis-vertical-bar-chart": "3efafc9ee6",

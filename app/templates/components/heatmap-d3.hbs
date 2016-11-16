@@ -6,11 +6,11 @@
     {{#each uniqueSelectedSnps as |snp|}}
       <li>
         <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{snp}}</div>
-        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        <div class="collapsible-body"><p><!-- x --></p></div>
       </li>
     {{/each}}
     </ul>
-    <button class="btn btn-large waves waves-effect waves-light brown">Show SNP Graph</button>
+    {{#link-to "network" (query-params rsId=selectedSnpsList) classNames="btn btn-large waves waves-effect waves-light brown"}}Show SNP Graph{{/link-to}}
   {{/if}}
   </section>
   <section class="col s12 m6 relative">

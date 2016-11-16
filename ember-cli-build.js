@@ -33,25 +33,10 @@ module.exports = function(defaults) {
   });
 
   // get cytoscape
+  app.import('vendor/cytoscape-dagre.js');
   app.import('bower_components/cytoscape/dist/cytoscape.js');
- /* app.import('vendor/shims/d3-legacy.js', {
-    exports: {
-      'd3v3':[
-        'default'
-      ]
-    }
-  });  */
-  // app.import('vendor/heatmap-d3.js');
-  /* app.import('bower_components/d3/d3.js', {
-    exports: {
-      'd3v4':[
-        'default'
-      ]
-    },
-    destDir: 'sassets'
-  }); */ 
- 
-
+  app.import('bower_components/cytoscape-qtip/cytoscape-qtip.js');
+  app.import('bower_components/cytoscape-dagre/cytoscape-dagre.js');
 
 
   return app.toTree();
