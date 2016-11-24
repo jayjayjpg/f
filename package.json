@@ -64,5 +64,9 @@
     "node-sass": "3.4.2",
     "npm": "^3.10.6",
     "tnt.genome": "^0.1.5"
+  },
+  "dependencies": {
+    "cytoscape-qtip": "^2.4.0",
+    "qtip2": "^3.0.3"
   }
 }

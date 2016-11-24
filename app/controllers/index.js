@@ -33,7 +33,7 @@ export default Ember.Controller.extend({
         queryParams: {
           regionType: val
         }
-      })
+      });
     },
     getThatSnpMetaData(rsId){
       console.log("meta data in index controller:" + rsId);

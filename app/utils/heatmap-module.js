@@ -1,5 +1,5 @@
 function heatmapModule(configObj) {
-
+  /* globals d3 */
   var myData = configObj.data;
   var clickHandlerCallback = configObj.clickHandler;
   var counterClickHandlerCallback = configObj.counterClickHandler;
@@ -82,7 +82,7 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
     .attr("transform", "rotate(90) translate(0," + parseInt(-dimensions.fieldPos / 2) + ")")
     .style("text-anchor","start")
     .attr("font-size", function(d){ return parseInt(dimensions.fullHeight / 100) + "px";})
-    .attr("y", function(d){ return dimensions.fullHeight / 210});
+    .attr("y", function(d){ return dimensions.fullHeight / 210; });
 
   svg.append("g")
     .attr("class", "y-axis y axxis")
@@ -92,7 +92,7 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
     .attr("transform", "translate(" + 0 + ", " + parseInt(-dimensions.fieldPos / 2) + ")")
     .style("text-anchor","start")
     .attr("font-size", function(d){ return parseInt(dimensions.fullHeight / 100) + "px";})
-    .attr("y", function(d){ return dimensions.fullHeight / 210});
+    .attr("y", function(d){ return dimensions.fullHeight / 210; });
 
 
   svg.attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
@@ -105,12 +105,12 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
 
   rects.enter()
       .append("rect")
-      .attr("x", function(d) { return d["posX"] * dimensions.fieldPos})
-      .attr("y", function(d) { return d["posY"] * dimensions.fieldPos})
+      .attr("x", function(d) { return d["posX"] * dimensions.fieldPos;})
+      .attr("y", function(d) { return d["posY"] * dimensions.fieldPos;})
       .attr("width", dimensions.adaptedfSize)
       .attr("height", dimensions.adaptedfSize)
       .attr("fill", "green")
-      .attr("fill-opacity", function(d){ return d["value"] / dataScores.maxValue})
+      .attr("fill-opacity", function(d){ return d["value"] / dataScores.maxValue; })
       .on("click", function(d,i) { 
         let self = d3.select(this); 
         handleDataElClick(d, i, self, clickHandlerCallback, counterClickHandlerCallback); 
@@ -118,7 +118,7 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
       })
       .on("mouseover", handleDataElMo)
       .append("title")
-      .text(function(d){ return "patient: " + d["x"] + ", SNP: " + d["y"]});
+      .text(function(d){ return "patient: " + d["x"] + ", SNP: " + d["y"]; });
 
   
   rects.exit().remove();

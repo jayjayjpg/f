@@ -32,11 +32,9 @@ module.exports = function(defaults) {
     destDir: 'assets'
   });
 
-  // get cytoscape
-  app.import('vendor/cytoscape-dagre.js');
   app.import('bower_components/cytoscape/dist/cytoscape.js');
-  app.import('bower_components/cytoscape-qtip/cytoscape-qtip.js');
-  app.import('bower_components/cytoscape-dagre/cytoscape-dagre.js');
+
+
 
 
   return app.toTree();

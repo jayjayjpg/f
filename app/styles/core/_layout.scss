@@ -12,6 +12,12 @@ main {
   .height-#{$i} {
     height: 30em / 12 * $i;
   }
+  .mt-#{$i}{
+    margin-top: 4em * $i;
+  }
+  .mb-#{$i}{
+    margin-bottom: 4em * $i;
+  }
 }
 
 .relative {

@@ -1,20 +1,23 @@
 import Ember from 'ember';
-// import cyqtip from 'cytoscape-qtip';
-
+/* globals cytoscape */
 
 export default Ember.Component.extend({
   tagName: 'article',
   classNames: ['facade-element', 'cytoscape-graph'],
   elementData: null,
+  cHeight: 800,
+  snpLabel: Ember.computed('affectedSnps', function(){
+    return this.get('affectedSnps');
+  }),
+  affectedSnps: null,
   didInsertElement(){
+
     let container = this.$();
-    this.$('.tooltipped').tooltip({delay: 50});
-    // cyqtip( cytoscape, jquery );
 
     container[0].style.left = 0;
     container[0].style.top = 0;
     container[0].style.width = "100%";
-    container[0].style.height = "400px";
+    container[0].style.height = `${this.get('cHeight')}px`;
     container[0].style.position = "relative";
     
 
@@ -48,26 +51,27 @@ export default Ember.Component.extend({
         roots: '#a',
         padding: 10
       },
-      zoom: 1,
-      zoomingEnabled: false
+      zoom: 0.2,
+      zoomingEnabled: true
     });
     
-    cy.on('mouseover', 'node', function(event) {
-        var node = event.cyTarget;
-        console.log("the node: " + event.cyTarget);
-        node.qtip({
-            content: 'hello',
-            show: {
-                event: event.type,
-                ready: true
-            },
-            hide: {
-                event: 'mouseout unfocus'
-            }
-        }, event);
+
+    cy.on('click', 'node', (event) => {
+        /*var node = event.cyTarget;
+        $(node).qtip({
+          content: node.data("label")
+        }); */
+        this.set('affectedSnps', event.cyTarget.data("label"));
+        console.log("associated label: "  + event.cyTarget.data("label"));
+        
     });
+
     
-    console.log("qtip obj defined?: " + this.$().qtip());
+    /* cy.$('node').qtip({
+        content: "label node"
+     }); */
+    
+    // console.log("qtip obj defined?: " + this.$().qtip());
 
   }
 });

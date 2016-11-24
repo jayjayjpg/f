@@ -10,8 +10,8 @@ export default Ember.Controller.extend({
     let actors = this.get('uniqueInteractions');
     let uniqNodes = [];
     actors.forEach(function(interaction){
-      uniqNodes.push(interaction.get('actor'));
-      uniqNodes.push(interaction.get('target'));
+      uniqNodes.push({title: interaction.get('actor'), subtitle: ''});
+      uniqNodes.push({title: interaction.get('target'), subtitle: interaction.get('targetSnp')});
     });
     return uniqNodes.uniq();
   }),
@@ -49,7 +49,7 @@ export default Ember.Controller.extend({
 
     let uniqNodes = this.get('uniqueNodes');
     res.nodes = uniqNodes.map(function(obj){
-      return { data: { id: obj }};
+      return { data: { id: obj.title, label: obj.subtitle }, classes: 'node cy-node'};
     });
     console.log("cytos: " + JSON.stringify(res));
     return res;
