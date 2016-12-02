@@ -57,21 +57,12 @@ export default Ember.Component.extend({
     
 
     cy.on('click', 'node', (event) => {
-        /*var node = event.cyTarget;
-        $(node).qtip({
-          content: node.data("label")
-        }); */
+
         this.set('affectedSnps', event.cyTarget.data("label"));
         console.log("associated label: "  + event.cyTarget.data("label"));
         
     });
 
-    
-    /* cy.$('node').qtip({
-        content: "label node"
-     }); */
-    
-    // console.log("qtip obj defined?: " + this.$().qtip());
 
   }
 });

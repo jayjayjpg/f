@@ -8,5 +8,15 @@ export default DS.JSONAPISerializer.extend({
     
     delete json.data;
     return json;
+  },
+  normalizeResponse(res){
+    let json = { };
+    if (res.error ){
+      throw err;
+    }
+    json.data = {};
+    json.data.attributes = res;
+    //console.log("normalized res: " + JSON.stringify(res));
+    return json;
   }
 });
