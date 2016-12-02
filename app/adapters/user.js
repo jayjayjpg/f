@@ -8,6 +8,6 @@ export default DS.RESTAdapter.extend({
     return "register";
   },
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json'
   }
 });

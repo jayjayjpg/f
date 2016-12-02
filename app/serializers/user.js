@@ -3,7 +3,7 @@ import DS from 'ember-data';
 export default DS.JSONAPISerializer.extend({
   serialize(snapshot, options) {
     var json = this._super(...arguments);
-    /* json.firstName = json.data.attributes["first-name"];
+    json.firstName = json.data.attributes["first-name"];
     json.lastName = json.data.attributes["last-name"];
     json.email = json.data.attributes.email;
     json.password = json.data.attributes.password;
@@ -15,7 +15,7 @@ export default DS.JSONAPISerializer.extend({
     delete json.data.attributes.lastName;
     delete json.data.attributes.email;
     delete json.data.attributes.password;
-    delete json.data;  */
+    delete json.data;  
 
     var str = [];
     for(var p in json){
@@ -25,6 +25,9 @@ export default DS.JSONAPISerializer.extend({
     }
     let newJson = str.join("&");
 
-    return json;
+    return json; // TODO: Fix serializing of sent out user object to match the schema from postamn x-www-urlencoded
+//request body is: {"email":"me@jessicajordan.de","password":"superpassword","firstName":"J","lastName":"J"}
+// POST /auth/register 422 15.584 ms - 49
+// request body is: {"{\"firstName\":\"Jessica\",\"lastName\":\"Jordan\",\"email\":\"me@jessicajordan.de\",\"password\":\"supersafe123\"}":""}
   }
 });
