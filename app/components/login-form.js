@@ -4,17 +4,14 @@ export default Ember.Component.extend({
   tagName: 'form',
   classNames: ['facade-element','login-form'],
   loginSent: false,
-  user: Ember.computed('emailAddress', 'password', function(){
-    let user = {
-      email: this.get('emailAddress'),
-      password: this.get('password')
-    };
+  user: Ember.computed('identification', 'password', function(){
+    let user = this.getProperties('identification', 'password');
     return user;
   }),
   formComplete: Ember.computed.and('emailOk','passwordOk'),
-  emailOk: Ember.computed.notEmpty('emailAddress'),
+  emailOk: Ember.computed.notEmpty('identification'),
   passwordOk: Ember.computed.notEmpty('password'),
-  emailAddress: 'me@jessicajordan.de',
+  identification: 'me@jessicajordan.de',
   password: 'superpassword',
   actions: {
     loginConfirm(){
