@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('network');
   this.route('index-loading');
   this.route('register');
+  this.route('login');
 });
 
 export default Router;

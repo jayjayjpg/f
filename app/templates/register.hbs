@@ -3,6 +3,11 @@
     <div class="col s12 m6 offset-m3">
       <h4 class="center text-center mt-1">Register to get access to iSNP data</h4>
       {{registration-form classNames="mt-1" onSubmit=(action "userDidRegister")}}
+      {{#each model.errors.email as |error|}}
+        <div class="error">
+          {{error.message}}
+        </div> <!-- TODO: update error message response to JSON API format to display it here -->
+      {{/each}}
     </div>
   </div>
   {{outlet}}
