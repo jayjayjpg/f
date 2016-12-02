@@ -42,12 +42,8 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
   var dataScores = calculateValueColors(myData);
 
   var fullDataCnt = 0;
-
-  // var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
   var svg = d3.select('#heatmapInstance');
   var dataCanvas = d3.select('.data-fields');
-
-  var dataScores = calculateValueColors(myData);
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
   
   svgRatio.width = dimensions.fullHeight;
@@ -96,9 +92,6 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
 
 
   svg.attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
-   // svg.attr("viewBox","0 0 100 " + dimensions.fullHeight);
-
-
 
   var rects = dataCanvas.selectAll("rect")
       .data(dimensions.fieldData.data);

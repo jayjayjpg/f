@@ -45,7 +45,6 @@ export default Ember.Component.extend({
   }),
   noSnpSelected: Ember.computed.none('currentSnp'),
   elementInfo: function(d, i, elObj){
-    console.log("set elementinfo: " + this.get('currentSnp'));
     //let data =  this.get('elementInfo');
     let patient = d.x;
     let snp = d.y;
@@ -65,7 +64,7 @@ export default Ember.Component.extend({
    this.set('currentPatient', null);
   },
   renderHeatMap: function(){
-    console.log("RERUN renderHeatMap");
+
     let data = this.get('jsonData');
 
     let sortedData = JSON.parse(JSON.stringify(this.get('jsonData').sortBy('x')));
@@ -75,11 +74,12 @@ export default Ember.Component.extend({
 
   }.observes('jsonData'),
   didInsertElement(){
-
-    this.$('.collapsible').collapsible();
-    let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray()));
-    let newHeatMap = heatmap.heatmapModule({target: '#heatWrapper', data: parsedData, clickHandler: this.get('elementInfo').bind(this), counterClickHandler: this.get('removeElementInfo').bind(this) });
-    this.get('noSnpSelected');
+    if (this.get('jsonData') !== undefined && this.get('jsonData') !== null){
+      this.$('.collapsible').collapsible();
+      let parsedData = JSON.parse(JSON.stringify(this.get('jsonData').toArray()));
+      let newHeatMap = heatmap.heatmapModule({target: '#heatWrapper', data: parsedData, clickHandler: this.get('elementInfo').bind(this), counterClickHandler: this.get('removeElementInfo').bind(this) });
+      this.get('noSnpSelected');
+    }
   },
   actions: {
     addSnpToSelection(rsId){
