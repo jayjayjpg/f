@@ -21,8 +21,8 @@ export default Base.extend({
   authenticate(creds) {
     const { identification, password } = creds;
     const data = JSON.stringify({
-      email: identification,
-      password
+        email: identification,
+        password
     });
 
     const requestOptions = {

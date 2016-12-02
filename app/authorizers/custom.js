@@ -10,7 +10,8 @@ export default Base.extend({
     }
     const { token } = data;
     if (this.get('session.isAuthenticated') && token){
-      block('Authorization', `${token}`); // TODO: Check if Bearer should be substituted with "JWT"
+      console.log("token for header: " + JSON.stringify(token));
+      block('Authorization', `JWT ${token}`); // TODO: Check if Bearer should be substituted with "JWT"
     }
   }
 });

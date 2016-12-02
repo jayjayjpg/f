@@ -2,6 +2,7 @@ import Ember from 'ember';
 import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
+  session: Ember.inject.service(),
   queryParams: {
     regionType: {
       refreshModel: true
@@ -10,6 +11,7 @@ export default Ember.Route.extend({
   model(param){
       var self = this;
       console.log("fab model param: " + JSON.stringify(param));
+      console.log("session token: " + JSON.stringify(this.get('session.data')));
       if (param.regionType == null){
         return RSVP.hash({
           snps: this.get('store').findAll('snp'),
