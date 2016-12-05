@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import Base from 'ember-simple-auth/authenticators/base';
+import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import config from '../config/environment';
 
 const { RSVP: { Promise }, $: { ajax }, run } = Ember;
 
-export default Base.extend({
+export default BaseAuthenticator.extend({
   tokenEndpoint: `${config.host}/auth/login`,
 
   restore(data) {
@@ -35,11 +35,12 @@ export default Base.extend({
 
     return new Promise((resolve, reject) => {
       ajax(requestOptions).then((response) => {
-        const { jwt } = response;
-
-        run(() => {
+        const { token } = response;
+        console.log("jwt response: " + JSON.stringify(response));
+        console.log("jwt actual jwt: " + JSON.stringify(token));
+        run(()=>{
           resolve({
-            token: jwt
+            token: token
           });
         });
       }, (error) => {

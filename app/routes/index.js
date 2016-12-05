@@ -10,8 +10,7 @@ export default Ember.Route.extend({
   },
   model(param){
       var self = this;
-      console.log("fab model param: " + JSON.stringify(param));
-      console.log("session token: " + JSON.stringify(this.get('session.data')));
+      console.log("session token: " + JSON.stringify(this.get('session')));
       if (param.regionType == null){
         return RSVP.hash({
           snps: this.get('store').findAll('snp'),
@@ -40,7 +39,6 @@ export default Ember.Route.extend({
   },
   actions: {
     refreshRoute(){
-      console.log("route refresh");
       this.refresh(); // TODO: force reload / requery of the modelby action or a transition hook?
     },
     myModelReload(model){

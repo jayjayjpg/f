@@ -8,10 +8,10 @@ export default Base.extend({
     if (Ember.testing){
       block('Authorization', 'Bearer kimkardashian');
     }
-    const { token } = data;
+    const token = data.token;
+    console.log("token for header: " + JSON.stringify(this.get('session')));
     if (this.get('session.isAuthenticated') && token){
-      console.log("token for header: " + JSON.stringify(token));
-      block('Authorization', `JWT ${token}`); // TODO: Check if Bearer should be substituted with "JWT"
+      block('Authorization', `${token}`); // TODO: Check if Bearer should be substituted with "JWT"
     }
   }
 });
