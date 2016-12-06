@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('index-loading');
   this.route('register');
   this.route('login');
+  this.route('mutations');
 });
 
 export default Router;

@@ -3,9 +3,13 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo right">iSNP</a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li>{{#link-to "index"}}Mutations{{/link-to}}</li>
+        <li>{{#link-to "mutations"}}Mutations{{/link-to}}</li>
         <li>{{#link-to "network"}}Network{{/link-to}}</li>
+        {{#if session.isAuthenticated}}
         <li><a href="#" {{action "invalidateSession"}}>Logout</a></li>  
+        {{else}}
+        <li>{{#link-to 'login' }}Login{{/link-to}}</li>  
+        {{/if}}
       </ul>
     </div>
   </nav>

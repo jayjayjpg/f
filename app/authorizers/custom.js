@@ -9,7 +9,7 @@ export default Base.extend({
       block('Authorization', 'Bearer kimkardashian');
     }
     const token = data.token;
-    console.log("token for header: " + JSON.stringify(this.get('session')));
+
     if (this.get('session.isAuthenticated') && token){
       block('Authorization', `${token}`); // TODO: Check if Bearer should be substituted with "JWT"
     }

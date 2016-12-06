@@ -10,6 +10,7 @@ export default Ember.Component.extend({
     return this.get('affectedSnps');
   }),
   affectedSnps: null,
+  nodeSelected: Ember.computed.notEmpty('affectedSnps'),
   didInsertElement(){
 
     let container = this.$();
@@ -59,7 +60,6 @@ export default Ember.Component.extend({
     cy.on('click', 'node', (event) => {
 
         this.set('affectedSnps', event.cyTarget.data("label"));
-        console.log("associated label: "  + event.cyTarget.data("label"));
         
     });
 

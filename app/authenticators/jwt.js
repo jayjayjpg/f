@@ -36,8 +36,7 @@ export default BaseAuthenticator.extend({
     return new Promise((resolve, reject) => {
       ajax(requestOptions).then((response) => {
         const { token } = response;
-        console.log("jwt response: " + JSON.stringify(response));
-        console.log("jwt actual jwt: " + JSON.stringify(token));
+
         run(()=>{
           resolve({
             token: token

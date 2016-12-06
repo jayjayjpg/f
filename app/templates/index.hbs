@@ -1,41 +1,22 @@
 <div class="container">
-  <h2>Explore Mutations in SNP Data</h2>
-  {{!-- {{interactions-map}} --}}
-  {{#if model}}
-   <section class="row">
-    <div class="col s4">
-      <select style="display:block" onchange={{action 'queryMutations' value="target.value"}}>
-      <option>{{#link-to "index" (query-params regionType=null)}}Get all SNPs{{/link-to}}</option>
-      {{#each uniqueSnps as |snp|}}
-        <option value={{snp.genomicRegion}}>{{#link-to "index" (query-params regionType=snp.genomicRegion)}}{{snp.genomicRegion}}{{/link-to}}</option>
-      {{/each}}
-      </select>
-    </div>
-    <div class="col s8">
-      {{#if gotFilteredSnps}}
-      <p>{{numOfSnps}} SNPs sorted</p>
-     {{/if}}
-      <p>{{numOfMut}} mutations found.</p>
-      <h6>{{numOfCurrentMut}} mutations.</h6>
-    </div>
-   </section>
-   <section class="row">
-    <div class="col s12">
-      {{#if foundMut}}
-          {{#heatmap-d3 jsonData=model.mutations metaDataAction="getThatSnpMetaData"}} 
-
-          {{/heatmap-d3}}
-      {{else}}
-          No mutations found of region type 
-          <strong>{{regionType}}</strong>
-      {{/if}}
+  <section class="blue mt-2 row lighten-2 white-text">
+    <div class="col s12 center">
+      <h1>Facade</h1>
+      <h3>a web application for the exploration of iSNP data</h3>
     </div>
   </section>
-  <section class="row">
-    <div class="col s12">
-      
+  <section class="mb-2">
+    <div class="col s12 center">
+      <hr>
+      <h3 class="light-text mt-1">Get access to iSNP data</h3>
+      <div class="row mt-1">
+        <div class="col s12 m6 center">
+          {{#link-to 'register' classNames="btn btn-large waves-effect waves-light brown darken-3"}}Register{{/link-to}}
+        </div>
+        <div class="col s12 m6 center">
+          {{#link-to 'login' classNames="btn btn-large waves-effect waves-light blue darken-3"}}Login{{/link-to}}
+        </div>
+      </div>
     </div>
   </section>
-  {{/if}}
-  {{outlet}}
 </div>

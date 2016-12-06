@@ -7,10 +7,11 @@
         {{#each uniqueInteractions as |snp|}}
           <li class="blue lighten-2 white-text">
             <div class="collapsible-header blue lighten-2 white-text"><i class="material-icons">filter_drama</i>{{snp.targetSnp}}</div>
-            <div class="collapsible-body"><p>related to:  <strong>{{snp.target}} region</strong></p></div>
+            <div class="collapsible-body">
+              <p>related to:  <strong>{{snp.target}}</strong>, lies in: <strong>{{snp.genomicRegion}} region</strong></p></div>
           </li>
         {{/each}}
-        <li class="collapsible-header grey lighten-2 white-text">SNPS not found in the interactions matrix:</li>
+        <li class="collapsible-header grey lighten-2 white-text">All queried SNPS:</li>
         {{#each model.snps as |snp|}}
           <li>
             <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{snp.rsId}}</div>

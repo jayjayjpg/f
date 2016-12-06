@@ -1,0 +1,39 @@
+<div class="container">
+  <h2>Explore Mutations in SNP Data</h2>
+  {{#if model}}
+   <section class="row">
+    <div class="col s4">
+      <select style="display:block" onchange={{action 'queryMutations' value="target.value"}}>
+      <option>{{#link-to "index" (query-params regionType=null)}}Get all SNPs{{/link-to}}</option>
+      {{#each uniqueSnps as |snp|}}
+        <option value={{snp.genomicRegion}}>{{#link-to "index" (query-params regionType=snp.genomicRegion)}}{{snp.genomicRegion}}{{/link-to}}</option>
+      {{/each}}
+      </select>
+    </div>
+    <div class="col s8">
+      {{#if gotFilteredSnps}}
+      <p>{{numOfSnps}} SNPs sorted</p>
+     {{/if}}
+      <p>{{numOfMut}} mutations found.</p>
+      <h6>{{numOfCurrentMut}} mutations.</h6>
+    </div>
+   </section>
+   <section class="row">
+    <div class="col s12">
+      {{#if foundMut}}
+          {{#heatmap-d3 jsonData=model.mutations metaDataAction="getThatSnpMetaData"}} 
+
+          {{/heatmap-d3}}
+      {{else}}
+          No mutations found of region type 
+          <strong>{{regionType}}</strong>
+      {{/if}}
+    </div>
+  </section>
+  <section class="row">
+    <div class="col s12">
+      
+    </div>
+  </section>
+  {{/if}}
+</div>
