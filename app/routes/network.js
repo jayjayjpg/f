@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import ApplicationRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(ApplicationRouteMixin, {
   model(params){
     if (params.rsId == null){
       return RSVP.hash({

@@ -24,23 +24,15 @@ export default Ember.Controller.extend({
   }),
   foundMut: Ember.computed.notEmpty('content.mutations'),
   actions: {
-    refreshRoute(){
-      console.log("route refresh");
-      this.refresh(); // force reload / requery of the model
-    },
     queryMutations(val){
-      this.transitionToRoute('index', {
+      this.transitionToRoute('mutations', {
         queryParams: {
           regionType: val
         }
       });
     },
     getThatSnpMetaData(rsId){
-      console.log("meta data in index controller:" + rsId);
       this.set('currentSuperSnp', rsId);
-     /* let mutationsSum = this.get('content').query('mutation',{
-        rsId: filteredSnpIds
-      }) */
     }
   }
 });

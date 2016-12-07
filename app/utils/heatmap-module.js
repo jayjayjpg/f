@@ -3,13 +3,14 @@ function heatmapModule(configObj) {
   var myData = configObj.data;
   var clickHandlerCallback = configObj.clickHandler;
   var counterClickHandlerCallback = configObj.counterClickHandler;
-  console.log("counterClickHandlerCallback: " + counterClickHandlerCallback);
-  var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
+  var axisMargin = {top: 100, right: 0, bottom: 100, left: 0};
   var dimensions = calculateDimensions(myData, axisMargin);
   var dataScores = calculateValueColors(myData);
   var target = configObj.target;
   var fullDataCnt = 0;
   var fullhHeight = dimensions.fullWidth + axisMargin.top + axisMargin.bottom;
+
+  var fillBaseColor = configObj.fillBaseColor || "#666666";
 
 
   var svg = d3.select(target)
@@ -28,17 +29,17 @@ function heatmapModule(configObj) {
       .attr("transform", "translate(" + axisMargin.left + ", " + 0 + ")");
 
   
-  update(myData, clickHandlerCallback, counterClickHandlerCallback);
+  update(myData, clickHandlerCallback, counterClickHandlerCallback, fillBaseColor);
 
   return "heatmap magic";
 }
 
-function update(data, clickHandlerCallback, counterClickHandlerCallback){
+function update(data, clickHandlerCallback, counterClickHandlerCallback, fillBaseColor){
   var myData = data;
   var svgRatio = {};
-  var axisMargin = {top: 100, right: 100, bottom: 100, left: 12};
+  var axisMargin = {top: 100, right: 0, bottom: 100, left: 0};
 
-  var dimensions = calculateDimensions(myData, axisMargin);
+  var dimensions = calculateDimensions(myData, axisMargin); // TODO: Check which value will be saved to dimensions.fullHeight on update
   var dataScores = calculateValueColors(myData);
 
   var fullDataCnt = 0;
@@ -52,7 +53,6 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
   var labels = dimensions.fieldData.data;
   var colLabels = dimensions.cols;
   var rowLabels = dimensions.rows;
-  console.log("colLabels: " + colLabels);
 
   var xScale = d3.scaleOrdinal()
                 .domain(colLabels.map(function(d){ return d; }))
@@ -63,32 +63,6 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
                 .domain(rowLabels.map(function(d){ return d; }))
                 .range(rowLabels.map(function(d,i){ return i * dimensions.fieldPos; })); // TODO: change mapping in range function to the actual unique values and not the whole array -> fixes magically resizing axis on data update
   var yAxis = d3.axisLeft().scale(yScale);
-
-  svg.selectAll('.x.axxis')
-     .remove();
-
-  svg.selectAll('.y.axxis')
-     .remove();
-
-  svg.append("g")
-    .attr("class", "x-axis x axxis")
-    .attr("transform", "translate(" +  parseInt(axisMargin.left)  + "," + parseInt(fullhHeight - axisMargin.top * 2) + ")")
-    .call(xAxis)
-    .selectAll("text")
-    .attr("transform", "rotate(90) translate(0," + parseInt(-dimensions.fieldPos / 2) + ")")
-    .style("text-anchor","start")
-    .attr("font-size", function(d){ return parseInt(dimensions.fullHeight / 100) + "px";})
-    .attr("y", function(d){ return dimensions.fullHeight / 210; });
-
-  svg.append("g")
-    .attr("class", "y-axis y axxis")
-    .attr("transform", "translate(" +  parseInt(axisMargin.left - 2) +  ", " + parseInt(fullhHeight / 100) + ")")
-    .call(yAxis)
-    .selectAll("text")
-    .attr("transform", "translate(" + 0 + ", " + parseInt(-dimensions.fieldPos / 2) + ")")
-    .style("text-anchor","start")
-    .attr("font-size", function(d){ return parseInt(dimensions.fullHeight / 100) + "px";})
-    .attr("y", function(d){ return dimensions.fullHeight / 210; });
 
 
   svg.attr("viewBox","0 0 " + dimensions.fullHeight + " " + fullhHeight);
@@ -102,14 +76,14 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
       .attr("y", function(d) { return d["posY"] * dimensions.fieldPos;})
       .attr("width", dimensions.adaptedfSize)
       .attr("height", dimensions.adaptedfSize)
-      .attr("fill", "green")
-      .attr("fill-opacity", function(d){ return d["value"] / dataScores.maxValue; })
+      .attr("fill", fillBaseColor)
+      .attr("fill-opacity", function(d){ return Math.max(d["value"] / dataScores.maxValue, 0.1); })
       .on("click", function(d,i) { 
         let self = d3.select(this); 
-        handleDataElClick(d, i, self, clickHandlerCallback, counterClickHandlerCallback); 
+        console.log("counterClickHandler defined? " + counterClickHandlerCallback);
+        handleDataElClick(d, i, self, clickHandlerCallback, counterClickHandlerCallback, fillBaseColor); 
         return d;
       })
-      .on("mouseover", handleDataElMo)
       .append("title")
       .text(function(d){ return "patient: " + d["x"] + ", SNP: " + d["y"]; });
 
@@ -120,11 +94,11 @@ function update(data, clickHandlerCallback, counterClickHandlerCallback){
 
 }
 
-function handleDataElClick(data, index, self, callback, counterCallback){
-  console.log("element click");
+function handleDataElClick(data, index, self, callback, counterCallback, fillBaseColor){
+
   if (self.attr("selected")){
     self.attr("selected",null);
-    self.attr("fill","green");
+    self.attr("fill", fillBaseColor);
     counterCallback(data, index, self);
     return;
   }
@@ -134,9 +108,6 @@ function handleDataElClick(data, index, self, callback, counterCallback){
   return data;
 }
 
-function handleDataElMo(d, i){
-  console.log("mouse over");
-}
 
 function calculateValueColors(dataObj){
   var len = dataObj.length;
@@ -145,7 +116,6 @@ function calculateValueColors(dataObj){
     return obj.value;
   });
   var maxVal = Math.floor(Math.max(...values));
-  // console.log("max value: " + maxVal);
   valueObj.maxValue = maxVal;
   valueObj.values = values;
   return valueObj;
@@ -184,11 +154,10 @@ function calculateDimensions(dataObj, margins){
     var currentVal; 
     arr.forEach(function(el, index){
       currentVal = el[key]; // rs23123
-      if (valList.indexOf(currentVal) === -1){ // wtf why is this such a mindfuck
+      if (valList.indexOf(currentVal) === -1){ // what the cabbage why is this such a mind flummery
         valList.push(currentVal);
       }
     });
-    //  console.log("dataRowsList: " +key+ " key - " + JSON.stringify(valList));
 
     return valList;
   }
@@ -205,7 +174,6 @@ function calculateDimensions(dataObj, margins){
       // final data attributes
       secondList.rowsNum = keyLists[1].length;
       secondList.colsNum = keyLists[0].length;
-      //console.log("dataRowsList: key - " + JSON.stringify(secondList)); 
       return secondList;
   }
 
