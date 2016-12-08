@@ -18,10 +18,6 @@ export default Ember.Component.extend({
   familyNameOk: Ember.computed.notEmpty('familyName'),
   emailOk: Ember.computed.notEmpty('emailAddress'),
   passwordOk: Ember.computed.notEmpty('password'),
-  firstName: 'Jessica',
-  familyName: 'Jordan',
-  emailAddress: 'me@jessicajordan.de',
-  password: 'supersafe123',
   actions: {
     submitConfirm(){
       let user = this.get('user');

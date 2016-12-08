@@ -11,8 +11,6 @@ export default Ember.Component.extend({
   formComplete: Ember.computed.and('emailOk','passwordOk'),
   emailOk: Ember.computed.notEmpty('identification'),
   passwordOk: Ember.computed.notEmpty('password'),
-  identification: 'me@jessicajordan.de',
-  password: 'superpassword',
   actions: {
     loginConfirm(){
       let user = this.get('user');
