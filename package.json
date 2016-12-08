@@ -9,8 +9,9 @@
   },
   "scripts": {
     "build": "ember build",
-    "start": "ember server",
-    "test": "ember test"
+    "start": "ember serve --environment production",
+    "test": "ember test",
+    "postinstall": "bower install"
   },
   "repository": "",
   "engines": {
