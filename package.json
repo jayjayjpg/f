@@ -11,7 +11,7 @@
     "build": "ember build",
     "start": "ember serve --environment production",
     "test": "ember test",
-    "postinstall": "bower install"
+    "postinstall": "npm install -g bower && bower install"
   },
   "repository": "",
   "engines": {
