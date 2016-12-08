@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import config from '../config/environment';
 
 export default DS.RESTAdapter.extend({
-  host: 'http://localhost:4100',
+  host: `${config.host}`,
   namespace: 'auth',
   pathForType: function(type){
     return "register";
