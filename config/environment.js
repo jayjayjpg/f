@@ -39,7 +39,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.host = 'https://facade-backend.herokuapp.com';
   }
 
   ENV['ember-simple-auth'] = {  
